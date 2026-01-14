@@ -5,6 +5,7 @@ import { useState } from 'react';
 interface ApiResponse {
   success: boolean;
   brainId?: string;
+  fileId?: string;
   logs?: string[];
   errors?: string[];
   error?: string;
@@ -13,9 +14,9 @@ interface ApiResponse {
 export default function Home() {
   const [formData, setFormData] = useState({
     clientName: '',
-    fileId: '',
     apiKey: '',
     accountSlug: '',
+    googleCredentials: '',
   });
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<ApiResponse | null>(null);
@@ -46,7 +47,7 @@ export default function Home() {
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -111,7 +112,7 @@ export default function Home() {
                   htmlFor="apiKey"
                   className="block text-sm font-medium text-gray-200 mb-2"
                 >
-                  API Key
+                  API Key (Moveo)
                 </label>
                 <input
                   type="password"
@@ -127,21 +128,24 @@ export default function Home() {
 
               <div>
                 <label
-                  htmlFor="fileId"
+                  htmlFor="googleCredentials"
                   className="block text-sm font-medium text-gray-200 mb-2"
                 >
-                  File ID (Google Sheet)
+                  Google Service Account (JSON)
                 </label>
-                <input
-                  type="text"
-                  id="fileId"
-                  name="fileId"
-                  value={formData.fileId}
+                <textarea
+                  id="googleCredentials"
+                  name="googleCredentials"
+                  value={formData.googleCredentials}
                   onChange={handleChange}
                   required
-                  placeholder="Ex: 1VCMC5pNOKr-SZTrukquzMhuQOQPgHIO8XMn8qWak2Os"
-                  className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
+                  rows={6}
+                  placeholder='Cole aqui o JSON da Service Account do Google (ex: {"type": "service_account", "project_id": "...", ...})'
+                  className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition font-mono text-sm resize-none"
                 />
+                <p className="mt-2 text-xs text-gray-400">
+                  Uma Google Sheet sera criada automaticamente para armazenar os dados do agente.
+                </p>
               </div>
 
               <button
@@ -197,11 +201,17 @@ export default function Home() {
               </h2>
 
               {result.brainId && (
-                <div className="mb-4 p-4 bg-white/5 rounded-lg">
+                <div className="mb-4 p-4 bg-white/5 rounded-lg space-y-2">
                   <p className="text-gray-300">
                     <span className="font-medium text-white">Brain ID:</span>{' '}
                     <code className="text-purple-400">{result.brainId}</code>
                   </p>
+                  {result.fileId && (
+                    <p className="text-gray-300">
+                      <span className="font-medium text-white">Google Sheet ID:</span>{' '}
+                      <code className="text-purple-400">{result.fileId}</code>
+                    </p>
+                  )}
                 </div>
               )}
 

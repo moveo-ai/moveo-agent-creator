@@ -1,14 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { v4 as uuidv4 } from 'uuid';
+import { google } from 'googleapis';
 import agenteModelo from '@/agente_modelo.json';
 
 const BASE_URL = 'https://api.moveo.ai/api';
 
 interface CreateAgentRequest {
   clientName: string;
-  fileId: string;
   apiKey: string;
   accountSlug: string;
+  googleCredentials: string;
 }
 
 interface WebhookIdMapping {
@@ -29,6 +30,76 @@ function getHeaders(apiKey: string) {
     Authorization: `apikey ${apiKey}`,
     'Content-Type': 'application/json',
   };
+}
+
+async function createGoogleSheet(
+  credentials: object,
+  clientName: string
+): Promise<{ fileId: string | null; error?: string }> {
+  try {
+    const auth = new google.auth.GoogleAuth({
+      credentials,
+      scopes: 'https://www.googleapis.com/auth/spreadsheets',
+    });
+
+    const sheets = google.sheets({ version: 'v4', auth });
+
+    // Create a new spreadsheet
+    const response = await sheets.spreadsheets.create({
+      requestBody: {
+        properties: {
+          title: `${clientName} - Debt Collection Data`,
+        },
+        sheets: [
+          {
+            properties: {
+              title: 'Dados',
+              gridProperties: {
+                rowCount: 1000,
+                columnCount: 26,
+              },
+            },
+            data: [
+              {
+                startRow: 0,
+                startColumn: 0,
+                rowData: [
+                  {
+                    values: [
+                      { userEnteredValue: { stringValue: 'cpf_completo' } },
+                      { userEnteredValue: { stringValue: 'nome' } },
+                      { userEnteredValue: { stringValue: 'telefone' } },
+                      { userEnteredValue: { stringValue: 'valor_divida' } },
+                      { userEnteredValue: { stringValue: 'valor_avista' } },
+                      { userEnteredValue: { stringValue: 'data_vencimento' } },
+                      { userEnteredValue: { stringValue: 'status' } },
+                      { userEnteredValue: { stringValue: 'cpf_cnpj' } },
+                      { userEnteredValue: { stringValue: 'tipo_documento' } },
+                      { userEnteredValue: { stringValue: 'complemento_cpf_cnpj' } },
+                      { userEnteredValue: { stringValue: 'val_cpf_cnpj' } },
+                    ],
+                  },
+                ],
+              },
+            ],
+          },
+        ],
+      },
+    });
+
+    const fileId = response.data.spreadsheetId;
+    if (!fileId) {
+      return { fileId: null, error: 'Não foi possível obter o ID da planilha criada' };
+    }
+
+    return { fileId };
+  } catch (error) {
+    console.error('Error creating Google Sheet:', error);
+    return {
+      fileId: null,
+      error: `Erro ao criar Google Sheet: ${error instanceof Error ? error.message : 'Erro desconhecido'}`,
+    };
+  }
 }
 
 async function createBrain(
@@ -453,11 +524,22 @@ async function createDialogs(
 export async function POST(request: NextRequest) {
   try {
     const body: CreateAgentRequest = await request.json();
-    const { clientName, fileId, apiKey, accountSlug } = body;
+    const { clientName, apiKey, accountSlug, googleCredentials } = body;
 
-    if (!clientName || !fileId || !apiKey || !accountSlug) {
+    if (!clientName || !apiKey || !accountSlug || !googleCredentials) {
       return NextResponse.json(
         { success: false, error: 'Todos os campos são obrigatórios' },
+        { status: 400 }
+      );
+    }
+
+    // Parse Google credentials
+    let credentials: object;
+    try {
+      credentials = JSON.parse(googleCredentials);
+    } catch {
+      return NextResponse.json(
+        { success: false, error: 'Credenciais do Google inválidas. Verifique o formato JSON.' },
         { status: 400 }
       );
     }
@@ -466,6 +548,18 @@ export async function POST(request: NextRequest) {
     const allErrors: string[] = [];
 
     logs.push('Iniciando criação do agente...');
+
+    // 0. Create Google Sheet
+    logs.push('Criando Google Sheet...');
+    const { fileId, error: sheetError } = await createGoogleSheet(credentials, clientName);
+
+    if (!fileId) {
+      return NextResponse.json(
+        { success: false, error: sheetError || 'Falha ao criar Google Sheet', logs },
+        { status: 500 }
+      );
+    }
+    logs.push(`✓ Google Sheet criada! ID: ${fileId}`);
 
     // 1. Create brain
     logs.push('Criando brain...');
@@ -529,10 +623,12 @@ export async function POST(request: NextRequest) {
     logs.push('========================================');
     logs.push(`Agente criado com sucesso!`);
     logs.push(`Brain ID: ${brainId}`);
+    logs.push(`Google Sheet ID: ${fileId}`);
 
     return NextResponse.json({
       success: true,
       brainId,
+      fileId,
       logs,
       errors: allErrors.length > 0 ? allErrors : undefined,
     });
