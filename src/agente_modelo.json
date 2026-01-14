@@ -1,0 +1,1333 @@
+{
+    "brain_id": "b1b23eba-a31a-4f21-bdcf-10ffe3e7d8e9",
+    "language": "pt-br",
+    "greeklish": false,
+    "disambiguation": false,
+    "disambiguation_prompt": "Você quis dizer:",
+    "disambiguation_options": 5,
+    "inactivity_timeout": 86400,
+    "confidence_threshold": 0.45,
+    "language_model_id": null,
+    "name": "Generico Debt Collection",
+    "description": "Generico Debt Collection",
+    "guidelines": {
+      "goal": "O objetivo do Agente de IA é comunicar-se com o cliente sobre a pendência em aberto e persuadi-lo a quitá-la no menor prazo possível.\n",
+      "name": "Company name",
+      "objections": "",
+      "updated_at": 1768348025716,
+      "updated_by": "3d703d76-eca8-4432-a1ee-8f0ed996771a",
+      "humor_level": 0,
+      "response_size": "short",
+      "tone_of_voice": 2,
+      "formality_level": 0,
+      "creativity_level": 0,
+      "support_handover": true,
+      "custom_guidelines": [],
+      "custom_instructions": "## Roteiro\n\nVocê é um especialista em negociação e cobrança humanizada. Seu objetivo é guiar o cliente em uma conversa focada em encontrar uma solução para a dívida, seguindo uma estratégia de ofertas progressivas.\n\n## Apresentação da Dívida\n\nCitar primeiro nome ao começar e ir direto para negociação a vista.\n\n## Negociação\n\nVocê deve oferecer o pagamento integral à vista com o desconto aplicado.\n\n* **Opção de Quitação com Desconto:** \"Para quitação, o valor com o desconto já aplicado fica em **R$ {valor_avista}**. Por exemplo, sua parcela de R$ 420,00 fica por R$ 379,00.\"\n\n* **Prazo:** sempre buscar promessas para o próximo dia útil, e no máximo mais 2 dias úteis.\n\n* Depois, caso o cliente peça o parcelamento, o Agente pode ofertar: **1. Entrada** (65% do débito) **+ 1x** e,\n\n* Depois se houver recusa, **2. Entrada** (65% do débito) **+ 2x** (máximo permitido).\n\n###\n\n## Confirmação do Acordo\n\nAntes de efetuar o registro deve fazer uma checagem final:\n\n\"Perfeito! O acordo foi feito no valor de R$ {valor_quitacao} com vencimento para {data_vencimento}. Você concorda com estas condições?\"\n\n\"Ótimo! Seu acordo foi registrado com sucesso. Vou te retornar via WhatsApp por este número mesmo, me identificando com a assessoria jurídica da Desktop, e te encaminho o boleto para quitação. Posso ajudar com mais alguma coisa?\"\n\n##\n\n# Instruções Principais\n\nUtilize sempre os dados disponíveis do cliente (detalhes da fatura, histórico de pagamentos, ofertas, sinais de dificuldade, etc.) para tornar cada resposta **relevante e específica**.\n\n**NUNCA** utilize listas (em tópicos, hífens ou numeradas), URLs ou texto em negrito no diálogo — cada frase deve soar **natural e conversacional**, adequada para ser entregue por voz.\n\nUse **palavras de preenchimento leves** (\"Certo\", \"Vamos ver\", \"Ok\", \"Só um segundo\", \"Estou verificando sua conta agora...\") para soar natural, mas não as utilize em excesso.\n\nSe o cliente mudar de idioma, responda **automaticamente no mesmo idioma**.\n\n**Nunca leia dados mecanicamente**. Integre números ou detalhes de forma natural nas frases (\"parece que sua última fatura foi de cerca de mil e duzentos reais\").\n\n**Nunca encerre frases com \"Como posso te ajudar com a sua fatura hoje?\".** Sempre direcione a conversa para explicar que há um pagamento em atraso e pergunte se o usuário gostaria de saber mais.\n\nSempre apresente os **valores exatos** das parcelas e totais. Não use palavras como 'aproximadamente' ou 'cerca de' sob nenhuma circunstância. Se o valor não puder ser calculado, peça mais informações ao usuário antes de responder. Antes de fornecer o valor da parcela, calcule-o exatamente dividindo o total pelo número de parcelas. Forneça o resultado exato, incluindo os centavos. Se for necessário aproximar um valor, não inclua os centavos na resposta\n\n# Tom e Presença\n\nUse frases **naturais**, palavras de preenchimento leves e pontuação que reflita o ritmo humano. Use **reticências** (...) para pausas, **travessões** (—) para mudanças de tom e **contrações** para fluidez. Evite *bullet points* ou segmentação artificiais.\n\nSoe **confiante, profissional e equilibrado** — sem ser excessivamente formal ou pedante. Fale como um especialista experiente em faturamento e pagamentos. Seja acolhedor e acessível, mas **não sentimental**.\n\nEvite frases como \"Sinto muito\" ou \"Eu compreendo perfeitamente.\" Prefira \"**Entendido**\", \"**Faz sentido**\", \"**Vamos dar uma olhada**\", \"**Eu vejo o que você quer dizer**.\"\n\n**Exemplo:** \"Entendido — vou verificar a sua conta agora. A sua fatura de setembro consta em aberto.\"\n\n## Fluxo Conversacional\n\nMantenha as frases **curtas** — 10 a 15 palavras por frase é o ideal para uma fala natural. Use conectores e transições suaves: \"**Certo**\", \"**Claro**\", \"**Vamos ver**\", \"**Ok, isso explica**\", \"**Exatamente, faz sentido**.\"\n\nEvite começar todas as frases da mesma forma — varie a estrutura para soar mais espontâneo.\n\nPermita **pausas naturais** ou pequenas digressões se isso tornar a conversa mais humana, mas sempre retorne ao tópico principal.\n\n**Exemplo:** \"É, eu entendo — setembro foi um mês corrido para muitos lojistas. De qualquer forma, olhando aqui, parece que o saldo restante é de 1.500 reais.\"\n\n# Reconhecimento e Controle de Fluxo\n\nReconheça o que o cliente diz de forma **natural** — não com confirmações roteirizadas.\n\n✅ \"**Faz sentido** — eu entendo por que você pensaria isso.\"\n\n✅ \"**Entendido** — eu vejo aquele pagamento de meados de agosto.\"\n\n❌ \"Obrigado por confirmar isso. Eu agradeço sua paciência.\"\n\nUse o reconhecimento como uma **ponte**, e não como uma conclusão. Sempre mantenha o diálogo avançando em direção à clareza ou ação. Se o cliente fornecer informações parciais, preencha as lacunas de forma inteligente usando os dados disponíveis.\n\n# Raciocínio Adaptativo e Senso Comum\n\nUse o roteiro como um **guia**, e não como uma regra rígida. Responda ao que o cliente realmente disser, mesmo que esteja fora do script.\n\nAplique **julgamento prático**:\n\n* Se o cliente parecer inseguro, **tranquilize-o** antes de explicar.\n\n* Se ele já mencionar um pagamento, **verifique isso primeiro** em vez de insistir no contrário.\n\n* Se ele estiver calmo e cooperativo, seja **mais direto** sobre as etapas de resolução.\n\nMantenha a **flexibilidade conversacional**: acompanhe comentários secundários relevantes quando for útil, mas sempre traga o foco de volta para a questão principal da conta.\n\n## Diretriz Importante: Mantenha o Foco\n\n**Regra** Discuta apenas a **dívida**, os **pagamentos** e os **detalhes da conta** do usuário.\n\n## Não Discutir\n\n**Política, Esportes, notícias** ou **opiniões pessoais**. **Conselhos financeiros** não relacionados à dívida atual.\n\n**Orientação emocional** ou psicológica.\n\n**Outros produtos, marketing** ou promoções. **Conversa fiada** ou tópicos gerais.\n\n## Resposta para Tópicos Secundários (Off-Topic Response)\n\nRedirecione educadamente para tópicos relacionados à dívida:\n\n\"Eu consigo te ajudar melhor com o seu saldo pendente. Você gostaria de **revisar as suas parcelas** agora?\"\n",
+      "match_user_language": false,
+      "respectfulness_level": 0,
+      "factuality_sensitivity": "low"
+    },
+    "brain_type": "debt_collection",
+    "webhooks": [
+      {
+        "webhook_id": "a3d68b99-4d2c-43b3-8179-140ec0164f58",
+        "name": "Force Intent",
+        "token": "1234",
+        "url": "https://webviews-git-force-intent-moveo-ai.vercel.app/api/common/premessage/force-intent",
+        "headers": [],
+        "test_schema": {},
+        "type": "first_message",
+        "fail_on_error": false,
+        "enabled": true
+      },
+      {
+        "webhook_id": "74e19fcf-9df2-4d79-94e2-7ff56c000748",
+        "name": "Buscar dados CPF",
+        "token": "1234",
+        "url": "https://webviews-git-google-sheet-read-v2-moveo-ai.vercel.app/api/common/google-sheet-read?context_external_id=cpf&column_name_external_id=cpf_completo",
+        "headers": [
+          {
+            "name": "x-file-id",
+            "value": "1VCMC5pNOKr-SZTrukquzMhuQOQPgHIO8XMn8qWak2Os"
+          }
+        ],
+        "test_schema": {},
+        "type": "action",
+        "fail_on_error": false,
+        "enabled": true
+      },
+      {
+        "webhook_id": "88fc4d74-c0fc-435d-92ff-20a28494e752",
+        "name": "Busca dados Telefone",
+        "token": "1234",
+        "url": "https://webviews.moveo.ai/api/common/google-sheet-read",
+        "headers": [
+          {
+            "name": "x-file-id",
+            "value": "1cyAfw_15zrStWCU8uL3ge0vloMfyFBtFKEee3e-XuRM"
+          }
+        ],
+        "test_schema": {},
+        "type": "action",
+        "fail_on_error": false,
+        "enabled": true
+      },
+      {
+        "webhook_id": "ea4b2c9d-a67c-46b5-96cb-bae75a91d8c1",
+        "name": "Salvar status",
+        "token": "1234",
+        "url": "https://webviews-git-nubank-moveo-ai.vercel.app/api/common/google-sheet-fill",
+        "headers": [
+          {
+            "name": "x-file-id",
+            "value": "1VCMC5pNOKr-SZTrukquzMhuQOQPgHIO8XMn8qWak2Os"
+          }
+        ],
+        "test_schema": {},
+        "type": "action",
+        "fail_on_error": false,
+        "enabled": true
+      },
+      {
+        "webhook_id": "7192f2c6-8f84-4c4f-8a7c-a03f64e3eef0",
+        "name": "split cpf (Copy)",
+        "token": "1234",
+        "url": "https://webviews-git-splitcpfcnpj-moveo-ai.vercel.app/api/common/cpf-cnpj-format",
+        "headers": [],
+        "test_schema": {},
+        "type": "action",
+        "fail_on_error": false,
+        "enabled": false
+      }
+    ],
+    "dialogs": [
+      {
+        "name": "Atendimento Humano",
+        "description": "",
+        "collection": "",
+        "nodes": [
+          {
+            "name": "Atendimento humano",
+            "type": "intent",
+            "intent": "Atendimento_humano",
+            "actions": [
+              {
+                "tags": [
+                  "handover"
+                ],
+                "type": "tag",
+                "action_id": "bfea2b12-b636-42c3-8f61-deacd6c2fa6e",
+                "operation": "add"
+              },
+              {
+                "type": "text",
+                "texts": [
+                  "Em breve um especialista dará continuidade ao seu atendimento."
+                ],
+                "action_id": "07d21701-f2bd-4212-832b-906c06448fef"
+              },
+              {
+                "name": "Nome sip5",
+                "type": "handover",
+                "external": false,
+                "action_id": "1b2f086b-57e2-41c4-8964-d1a995640095"
+              }
+            ],
+            "enhance": false,
+            "node_id": "420457ed-16e1-49fd-ba8d-c48ced3eb2de",
+            "requisites": [],
+            "disambiguation": false
+          }
+        ]
+      },
+      {
+        "name": "Authentication",
+        "description": "",
+        "collection": "",
+        "nodes": [
+          {
+            "name": "Auth",
+            "type": "intent",
+            "intent": "Auth",
+            "actions": [],
+            "enhance": false,
+            "node_id": "99317feb-8bd1-47dc-bd32-8e00d93d28bf",
+            "conditions": [
+              {
+                "name": "Não conheço",
+                "match": "all",
+                "rules": [
+                  {
+                    "value": "O usuário não é quem procuramos Respondeu algo como Nao sou eu, Nao conheço, Não sei quem é, Número errado, etc...",
+                    "rule_id": "76d528a2-76d2-4465-b4f3-67ab48416aba",
+                    "operator": "guideline"
+                  }
+                ],
+                "actions": [
+                  {
+                    "name": "Name z8jz",
+                    "type": "event",
+                    "action_id": "4eb83024-a71d-42bf-9582-8119b04c1364",
+                    "trigger_node_id": "971c9c7b-f94a-41cb-98ae-cd5f0922ec7c"
+                  }
+                ],
+                "condition_id": "f137dfea-2860-4fa0-9031-0dc5c489423b"
+              },
+              {
+                "name": "Bloquear",
+                "match": "all",
+                "rules": [
+                  {
+                    "value": "O usuário não tem interesse no assunto, usou xingamentos ou pediu para não ser mais contactado",
+                    "rule_id": "1d21008e-4bb0-467b-a792-1919caf45fd4",
+                    "operator": "guideline"
+                  }
+                ],
+                "actions": [
+                  {
+                    "name": "Name 7tut",
+                    "type": "event",
+                    "action_id": "14e6f507-9825-4bcc-baef-a27401b32a24",
+                    "trigger_node_id": "a354ed76-fafd-4972-aff8-38962d980778"
+                  }
+                ],
+                "condition_id": "5afdc919-17c8-4441-b139-bbb82bd4c32a"
+              },
+              {
+                "name": "Else",
+                "match": "else",
+                "rules": [],
+                "actions": [
+                  {
+                    "name": "Name 10n7",
+                    "type": "event",
+                    "action_id": "65b369e4-cbf1-47fc-ae2e-e4a52e0b6446",
+                    "trigger_node_id": "58ca8ca0-4aa3-4762-b290-6c95d243f122"
+                  }
+                ],
+                "condition_id": "93c21349-bc2d-408a-ac7c-f30a9d5b50f1"
+              },
+              {
+                "name": "Greetings",
+                "match": "all",
+                "rules": [
+                  {
+                    "value": "O usuário deu uma resposta generica, como Ola, ou qualquer coisa que não pareça com as outras alternativas",
+                    "rule_id": "767124e8-55b4-43cc-870e-9e3609e7a1b6",
+                    "operator": "guideline"
+                  }
+                ],
+                "actions": [
+                  {
+                    "name": "Name axpx",
+                    "type": "event",
+                    "action_id": "0aaee81d-6a0d-45ec-942f-bc0589c1ccd4",
+                    "trigger_node_id": "58ca8ca0-4aa3-4762-b290-6c95d243f122"
+                  }
+                ],
+                "condition_id": "fabb7d52-f1c6-4b4d-b3d8-f53f5d8db369"
+              }
+            ],
+            "requisites": [],
+            "disambiguation": false
+          }
+        ]
+      },
+      {
+        "name": "Busca dados",
+        "description": "",
+        "collection": "",
+        "nodes": [
+          {
+            "name": "Busca dados",
+            "type": "event",
+            "actions": [
+              {
+                "type": "set_variables",
+                "action_id": "957a919b-cc24-4d72-a359-658cf5ae839a",
+                "variables": [
+                  {
+                    "value": "Desktop",
+                    "variable": "company_name"
+                  }
+                ]
+              },
+              {
+                "type": "webhook",
+                "fallback": [
+                  {
+                    "type": "text",
+                    "texts": [
+                      "Erro ao buscar dados pelo telefone"
+                    ]
+                  }
+                ],
+                "action_id": "e796bb92-c282-419d-82b1-b335fc8f587b",
+                "webhook_id": "88fc4d74-c0fc-435d-92ff-20a28494e752"
+              }
+            ],
+            "enhance": false,
+            "node_id": "58ca8ca0-4aa3-4762-b290-6c95d243f122",
+            "conditions": [
+              {
+                "name": "Erro ao buscar dados por telefone",
+                "match": "any",
+                "rules": [
+                  {
+                    "name": "$save_user_data_error",
+                    "value": "true",
+                    "rule_id": "9852bbff-fa9d-48cc-b7cf-0be2687e0a14",
+                    "operator": "equal"
+                  }
+                ],
+                "actions": [
+                  {
+                    "type": "text",
+                    "texts": [
+                      "Sou da cobrança amigável da **assessoria jurídica da {{$company_name}}**.\n"
+                    ],
+                    "action_id": "3c9e448d-70af-4008-8427-9ed45f8df805"
+                  },
+                  {
+                    "name": "Nome f7l9",
+                    "type": "reset",
+                    "action_id": "275fa08b-3a15-4634-9a12-ee4d148a5ef2"
+                  },
+                  {
+                    "name": "Nome zz44",
+                    "type": "event",
+                    "action_id": "e00eba85-15f9-408d-86d0-d79942c6fa33",
+                    "trigger_node_id": "fa3be009-0479-4203-bf10-ffd5a8d2256a"
+                  }
+                ],
+                "condition_id": "b1c33c49-2a52-421a-93b2-9f74d9b1c0fa"
+              },
+              {
+                "name": "Buscou dados por telefone",
+                "match": "else",
+                "rules": [],
+                "actions": [
+                  {
+                    "type": "set_variables",
+                    "action_id": "9d8cf5cd-cd06-4e26-8ecc-d346fa85132a",
+                    "variables": [
+                      {
+                        "value": "{{$live_instructions.cpf_cnpj}}",
+                        "variable": "cpf_cnpj"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Nome s0sm",
+                    "type": "event",
+                    "action_id": "73263ad9-eef2-446b-b505-5cfcc9913c40",
+                    "trigger_node_id": "d89b083c-488c-4493-8125-5e91bf81f5e3"
+                  }
+                ],
+                "condition_id": "34bd035b-3284-4dbc-9ffc-5a9950d43019"
+              }
+            ],
+            "disambiguation": false
+          },
+          {
+            "name": "Busca CPF",
+            "type": "event",
+            "actions": [
+              {
+                "type": "webhook",
+                "fallback": [
+                  {
+                    "type": "text",
+                    "texts": [
+                      "Erro ao buscar dados por cpf"
+                    ]
+                  }
+                ],
+                "action_id": "3b5fa7e3-4634-4cf1-ad72-f4720634a2a1",
+                "webhook_id": "74e19fcf-9df2-4d79-94e2-7ff56c000748"
+              }
+            ],
+            "enhance": false,
+            "node_id": "fa3be009-0479-4203-bf10-ffd5a8d2256a",
+            "parent_id": "58ca8ca0-4aa3-4762-b290-6c95d243f122",
+            "conditions": [
+              {
+                "name": "Erro ao buscar dados por CPF",
+                "match": "any",
+                "rules": [
+                  {
+                    "name": "$save_user_data_error",
+                    "value": "true",
+                    "rule_id": "6dd3327f-72c0-4090-8c33-270a2f284a1c",
+                    "operator": "equal"
+                  }
+                ],
+                "actions": [
+                  {
+                    "type": "text",
+                    "texts": [
+                      "Ops! Não encontrei contratos em aberto para o número de CPF informado. Poderia, por gentileza, conferir e digitar novamente? 🤔\n"
+                    ],
+                    "action_id": "2f89670c-ae16-4429-9774-9563a662856e"
+                  },
+                  {
+                    "name": "Nome o464",
+                    "type": "event",
+                    "action_id": "382d0c50-0095-4362-a0e4-88942d27cb60",
+                    "trigger_node_id": "bf159f7e-1766-4866-ade4-0f6f59730dee"
+                  }
+                ],
+                "condition_id": "5f8cee5e-940e-4bab-8995-59806012ed11"
+              },
+              {
+                "name": "Buscou dados por CPF",
+                "match": "else",
+                "rules": [],
+                "actions": [
+                  {
+                    "tags": [
+                      "buscou_cpf"
+                    ],
+                    "type": "tag",
+                    "action_id": "6ad5593f-a58c-4cec-a906-281e661923d3",
+                    "operation": "add"
+                  },
+                  {
+                    "type": "replay",
+                    "texts": [
+                      "Apresente minha pendência"
+                    ],
+                    "action_id": "8b3929a6-708d-45f8-876d-1044886df856"
+                  }
+                ],
+                "condition_id": "465fe11a-b048-4ccd-8eec-55d0431ffe49"
+              }
+            ],
+            "requisites": [
+              {
+                "actions": [
+                  {
+                    "type": "text",
+                    "texts": [
+                      "Para garantir a confidencialidade dos dados, por gentileza, me informe agora o número do seu CPF☺️!\n"
+                    ],
+                    "action_id": "5c9adb2a-a630-44cf-b955-49f29a743626"
+                  }
+                ],
+                "save_as": "cpf",
+                "requisite_id": "a2fa6f6e-caf0-457b-a361-0a4d186246a4"
+              }
+            ]
+          },
+          {
+            "name": "Verifica Erro CPF",
+            "type": "event",
+            "actions": [],
+            "enhance": false,
+            "node_id": "bf159f7e-1766-4866-ade4-0f6f59730dee",
+            "parent_id": "fa3be009-0479-4203-bf10-ffd5a8d2256a",
+            "conditions": [
+              {
+                "name": "Segundo erro",
+                "match": "any",
+                "rules": [
+                  {
+                    "name": "$erro_cpf",
+                    "rule_id": "a469eb22-82f3-43a4-ae8e-27ee70b61590",
+                    "operator": "exist"
+                  }
+                ],
+                "actions": [
+                  {
+                    "name": "Nome txer",
+                    "type": "reset",
+                    "action_id": "ac7dcfed-87de-49a1-9388-f00616e388c7"
+                  },
+                  {
+                    "type": "set_variables",
+                    "action_id": "5555ab4e-ecb9-4d24-b7bd-bd92427216b8",
+                    "variables": [
+                      {
+                        "value": "true",
+                        "variable": "erro_cpf"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Nome wxs5",
+                    "type": "event",
+                    "action_id": "c93a0234-a2d7-49d4-b0e1-3653d42267e0",
+                    "trigger_node_id": "396006a6-2493-4f73-9d43-2d8bcb020773"
+                  }
+                ],
+                "condition_id": "3e2c629c-793b-49a6-85e6-1e2bd201fce8"
+              },
+              {
+                "name": "Primeiro erro",
+                "match": "else",
+                "rules": [],
+                "actions": [
+                  {
+                    "name": "Nome 1sxz",
+                    "type": "reset",
+                    "action_id": "d680e0c6-0579-4406-9019-0b1f13446f89"
+                  },
+                  {
+                    "type": "set_variables",
+                    "action_id": "f3ef5fd9-93e4-49fc-a78a-3448714423e5",
+                    "variables": [
+                      {
+                        "value": "true",
+                        "variable": "erro_cpf"
+                      }
+                    ]
+                  },
+                  {
+                    "name": "Nome l40k",
+                    "type": "event",
+                    "action_id": "2ee201e5-43a2-4961-9d87-382661e0478a",
+                    "trigger_node_id": "fa3be009-0479-4203-bf10-ffd5a8d2256a"
+                  }
+                ],
+                "condition_id": "32281d54-049d-405c-96a9-be36b953f308"
+              }
+            ],
+            "requisites": []
+          },
+          {
+            "name": "Tentar novamente ou transferir",
+            "type": "event",
+            "actions": [],
+            "enhance": false,
+            "node_id": "396006a6-2493-4f73-9d43-2d8bcb020773",
+            "parent_id": "bf159f7e-1766-4866-ade4-0f6f59730dee",
+            "conditions": [
+              {
+                "name": "Tentar novamente",
+                "match": "all",
+                "rules": [
+                  {
+                    "value": "O usuário quer tentar novamente",
+                    "rule_id": "4232652b-671f-40f6-b535-7a00b855a26b",
+                    "operator": "guideline"
+                  }
+                ],
+                "actions": [
+                  {
+                    "name": "Nome j65y",
+                    "type": "event",
+                    "action_id": "c32324c5-17b6-4cb4-9fc6-f96894b71528",
+                    "trigger_node_id": "fa3be009-0479-4203-bf10-ffd5a8d2256a"
+                  }
+                ],
+                "condition_id": "0bc16167-5140-4e74-b1b6-78ee25472e4f"
+              },
+              {
+                "name": "Transferir",
+                "match": "else",
+                "rules": [],
+                "actions": [
+                  {
+                    "tags": [
+                      "handover"
+                    ],
+                    "type": "tag",
+                    "action_id": "c043c621-e235-4fdf-a259-637ccb5814c4",
+                    "operation": "add"
+                  },
+                  {
+                    "name": "Nome wrm2",
+                    "type": "handover",
+                    "external": false,
+                    "action_id": "e384aa1c-aee9-4ebd-8eee-3c7d1a636b6b"
+                  }
+                ],
+                "condition_id": "5ad436f2-3da1-4fdc-99bf-fc424d692c40"
+              }
+            ],
+            "requisites": [
+              {
+                "actions": [
+                  {
+                    "type": "text",
+                    "texts": [
+                      "Você gostaria de tentar informar o CPF novamente ou quer que eu te transfira pro nosso time de atendimento?\n"
+                    ],
+                    "options": [
+                      {
+                        "text": "Tentar novamente",
+                        "label": "Tentar novamente",
+                        "option_id": "e0664f42-9b76-4483-ab75-9942abcc0d09"
+                      },
+                      {
+                        "text": "Me transfira",
+                        "label": "Me transfira",
+                        "option_id": "bf990804-3159-40a3-966e-89336b6d28b4"
+                      }
+                    ],
+                    "action_id": "a0648388-cde8-44b8-bd44-2203333f4d8e"
+                  }
+                ],
+                "save_as": "resposta",
+                "requisite_id": "f71e1c2f-81ff-46aa-85e9-437386a8577f"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "name": "Confirma acordo",
+        "description": "",
+        "collection": "",
+        "nodes": [
+          {
+            "name": "Confirma_acordo",
+            "type": "intent",
+            "intent": "Confirma_acordo",
+            "actions": [
+              {
+                "type": "set_variables",
+                "action_id": "4b465029-b01a-488a-96d1-290db28924e6",
+                "variables": [
+                  {
+                    "value": "Acordo feito",
+                    "variable": "Status"
+                  }
+                ]
+              },
+              {
+                "type": "webhook",
+                "fallback": [
+                  {
+                    "type": "text",
+                    "texts": [
+                      "Texto de exemplo boy2"
+                    ]
+                  }
+                ],
+                "action_id": "1d44ed0d-b87f-437d-a09d-0aff0289f0f2",
+                "webhook_id": "ea4b2c9d-a67c-46b5-96cb-bae75a91d8c1"
+              },
+              {
+                "type": "text",
+                "texts": [
+                  "O acordo foi registrado, agradecemos o seu compromisso em regularizar o seu débito! Fez a melhor escolha, não deixe de pagar na data combinada, obrigado!\n"
+                ],
+                "action_id": "f1f72a9a-4358-41e1-912f-8ce4c4038e66"
+              }
+            ],
+            "enhance": false,
+            "node_id": "d5587401-7e58-4eaf-b260-d7fa1959461b",
+            "disambiguation": false
+          }
+        ]
+      },
+      {
+        "name": "Nao sou eu",
+        "description": "",
+        "collection": "",
+        "nodes": [
+          {
+            "name": "Nao sou eu ",
+            "type": "intent",
+            "intent": "nao_conheco",
+            "actions": [
+              {
+                "tags": [
+                  "Nao_sou_eu"
+                ],
+                "type": "tag",
+                "action_id": "2c4095ca-3c5d-46a6-b828-4f467e6db89a",
+                "operation": "add"
+              },
+              {
+                "type": "text",
+                "texts": [
+                  "😁 Agradecemos pelo retorno e pedimos desculpas pelo transtorno."
+                ],
+                "action_id": "1c7372c1-71b5-411f-b3fd-493c899a7480"
+              },
+              {
+                "type": "close",
+                "action_id": "cc30cfc3-ed8f-4ca4-9384-df09a8a699a1"
+              }
+            ],
+            "enhance": false,
+            "node_id": "971c9c7b-f94a-41cb-98ae-cd5f0922ec7c",
+            "requisites": [],
+            "disambiguation": false
+          }
+        ]
+      },
+      {
+        "name": "Nao tenho interesse",
+        "description": "",
+        "collection": "",
+        "nodes": [
+          {
+            "name": "Não tenho interesse",
+            "type": "intent",
+            "intent": "nao_tenho_interesse",
+            "actions": [],
+            "enhance": false,
+            "node_id": "a354ed76-fafd-4972-aff8-38962d980778",
+            "conditions": [
+              {
+                "name": "Negativado",
+                "match": "any",
+                "rules": [
+                  {
+                    "name": "$live_instructions.judicializado",
+                    "value": "Valor de exemplo",
+                    "rule_id": "81b8c530-63ee-4f3b-87b5-0b6275467f87",
+                    "operator": "equal"
+                  }
+                ],
+                "actions": [
+                  {
+                    "name": "Nome 5jyc",
+                    "type": "event",
+                    "action_id": "2880c103-af5e-4877-95ee-c42a359f6e99",
+                    "trigger_node_id": "30388e86-bc91-4695-b4cf-2ab59418e7b4"
+                  }
+                ],
+                "condition_id": "c402f0bc-a673-42cc-b309-ea8012fad442"
+              },
+              {
+                "name": "Não",
+                "match": "else",
+                "rules": [],
+                "actions": [
+                  {
+                    "name": "Nome 7pmb",
+                    "type": "event",
+                    "action_id": "afd32408-fb60-4ed1-9f93-29ad12c3be8f",
+                    "trigger_node_id": "b7c627f4-6093-4cd1-8aea-3580770048d5"
+                  }
+                ],
+                "condition_id": "07f56926-0b09-4614-b1a2-19e207dfda5e"
+              }
+            ],
+            "requisites": [],
+            "disambiguation": false
+          },
+          {
+            "name": "Insistir",
+            "type": "event",
+            "actions": [],
+            "enhance": false,
+            "node_id": "30388e86-bc91-4695-b4cf-2ab59418e7b4",
+            "parent_id": "a354ed76-fafd-4972-aff8-38962d980778",
+            "conditions": [
+              {
+                "name": "Quero negociar",
+                "match": "all",
+                "rules": [
+                  {
+                    "value": "O usuário quer negociar débito em aberto.",
+                    "rule_id": "e9bc13b9-f17a-41fd-83f3-c02bfdd3b5d1",
+                    "operator": "guideline"
+                  }
+                ],
+                "actions": [
+                  {
+                    "tags": [
+                      "Quero_negociar"
+                    ],
+                    "type": "tag",
+                    "action_id": "ceedf3d4-e7bf-4546-9f99-83efbffab8e9",
+                    "operation": "add"
+                  },
+                  {
+                    "type": "replay",
+                    "action_id": "da405d0e-977f-4bb2-97e9-995c6b66f138"
+                  }
+                ],
+                "condition_id": "bf773303-e333-4e62-b4e5-752842b00d9e"
+              },
+              {
+                "name": "Finalizar conversa",
+                "match": "else",
+                "rules": [],
+                "actions": [
+                  {
+                    "name": "Nome erw1",
+                    "type": "event",
+                    "action_id": "4f334bc5-9534-46d7-84ee-10773f7afda6",
+                    "trigger_node_id": "b7c627f4-6093-4cd1-8aea-3580770048d5"
+                  }
+                ],
+                "condition_id": "4fb56b3a-0fbd-4196-b4d5-2f49326448f3"
+              }
+            ],
+            "requisites": [
+              {
+                "actions": [
+                  {
+                    "type": "text",
+                    "texts": [
+                      "Agradecemos pelo retorno.\n\nReforçamos que um débito em aberto pode causar judicialização e negativação do seu nome caso não seja negociado imediatamente."
+                    ],
+                    "options": [
+                      {
+                        "text": "Finalizar conversa",
+                        "label": "Finalizar conversa",
+                        "option_id": "14d226b2-dc3e-46ba-bb1f-929a1a88b193"
+                      },
+                      {
+                        "text": "Quero negociar",
+                        "label": "Quero negociar",
+                        "option_id": "a32e5c5e-a9d3-40dc-b396-23d17cd186e5"
+                      }
+                    ],
+                    "action_id": "7f88537d-ab2a-49ae-8508-5c0fcff4a951"
+                  }
+                ],
+                "save_as": "Confirmacao",
+                "requisite_id": "4f3fd9c4-633e-4bc7-969f-968464dbc1a5"
+              }
+            ],
+            "disambiguation": false
+          },
+          {
+            "name": "Finalizar",
+            "type": "event",
+            "actions": [
+              {
+                "tags": [
+                  "Nao_tenho_interesse"
+                ],
+                "type": "tag",
+                "action_id": "1c9b765e-e091-4a51-b650-1ead5e3f29d2",
+                "operation": "add"
+              },
+              {
+                "type": "text",
+                "texts": [
+                  "Agradecemos a sua atenção e ficamos a disposição! ☺️"
+                ],
+                "action_id": "2f6eb801-0c34-4b5c-9081-57f2b8edc2bf"
+              },
+              {
+                "type": "close",
+                "action_id": "0363cd27-aed6-414d-ab12-6fc01fa3209f"
+              }
+            ],
+            "enhance": false,
+            "node_id": "b7c627f4-6093-4cd1-8aea-3580770048d5",
+            "parent_id": "30388e86-bc91-4695-b4cf-2ab59418e7b4",
+            "requisites": []
+          }
+        ]
+      },
+      {
+        "name": "reset",
+        "description": "",
+        "collection": "",
+        "nodes": [
+          {
+            "name": "reset",
+            "type": "intent",
+            "intent": "reset",
+            "actions": [
+              {
+                "type": "close",
+                "action_id": "1708b6bc-c7a0-419c-8919-4f12956cb759"
+              }
+            ],
+            "enhance": false,
+            "node_id": "2010f62d-4a48-48d5-a2fe-21166c1e9f6e",
+            "requisites": [],
+            "disambiguation": false
+          }
+        ]
+      },
+      {
+        "name": "Unknown",
+        "description": "Gets triggered when Moveo cannot answer the question",
+        "collection": "",
+        "nodes": [
+          {
+            "name": "Unknown",
+            "type": "unknown",
+            "actions": [
+              {
+                "type": "text",
+                "texts": [
+                  "Lamento, mas não posso ajudá-lo com sua solicitação específica. Há mais alguma coisa em que eu possa ajudá-lo?"
+                ],
+                "action_id": "fb34753b-8dc9-408e-a7ae-c6a72a78a1cd"
+              }
+            ],
+            "node_id": "5984347a-9f00-494a-b1bf-1e857f47cf0b"
+          }
+        ]
+      },
+      {
+        "name": "Valida CPF",
+        "description": "",
+        "collection": "",
+        "nodes": [
+          {
+            "name": "Valida CPF",
+            "type": "event",
+            "actions": [
+              {
+                "type": "webhook",
+                "fallback": [
+                  {
+                    "type": "text",
+                    "texts": [
+                      "Example text dq1x"
+                    ]
+                  }
+                ],
+                "action_id": "1b9969ec-2c56-494a-a9e7-2f67f173f58a",
+                "webhook_id": "7192f2c6-8f84-4c4f-8a7c-a03f64e3eef0"
+              },
+              {
+                "name": "Nome b9nm",
+                "type": "event",
+                "action_id": "f6bbc542-e7ae-4733-9daf-9281e1558a4b",
+                "trigger_node_id": "aa3af112-78ae-4d5a-bda2-3238ac5f64af"
+              }
+            ],
+            "enhance": false,
+            "node_id": "d89b083c-488c-4493-8125-5e91bf81f5e3",
+            "requisites": [],
+            "disambiguation": false
+          },
+          {
+            "name": "Validar CPF",
+            "type": "event",
+            "actions": [],
+            "enhance": false,
+            "node_id": "aa3af112-78ae-4d5a-bda2-3238ac5f64af",
+            "parent_id": "d89b083c-488c-4493-8125-5e91bf81f5e3",
+            "conditions": [
+              {
+                "name": "Validou CPF",
+                "match": "any",
+                "rules": [
+                  {
+                    "name": "$validar_cpf",
+                    "value": "{{$val_cpf_cnpj}}",
+                    "rule_id": "02913fad-b750-433b-a4fa-40d95ce47309",
+                    "operator": "equal"
+                  }
+                ],
+                "actions": [
+                  {
+                    "tags": [
+                      "validou_cpf"
+                    ],
+                    "type": "tag",
+                    "action_id": "afa9e9d3-ce18-4c94-888e-3a9163885390",
+                    "operation": "add"
+                  },
+                  {
+                    "type": "replay",
+                    "texts": [
+                      "Apresente minha pendência"
+                    ],
+                    "action_id": "7f9c1aa1-a7dd-4628-8668-de4fd63cf285"
+                  }
+                ],
+                "condition_id": "3dca6dc2-0ef7-4e15-b65b-db7e4c044cf8"
+              },
+              {
+                "name": "Não Validou CPF",
+                "match": "else",
+                "rules": [],
+                "actions": [
+                  {
+                    "type": "text",
+                    "texts": [
+                      "{{$user.display_name}}, não encontrei os números {{$velidar_cpf}} na nossa base de dados... vamos tentar novamente ☺️\n"
+                    ],
+                    "action_id": "96bf056b-1a3b-46b4-8481-7ac29cb45095"
+                  },
+                  {
+                    "name": "Nome 9eu1",
+                    "type": "reset",
+                    "action_id": "cfef964f-1d9c-40fc-9830-700b8330a37c",
+                    "variables": [
+                      "velidar_cpf"
+                    ]
+                  },
+                  {
+                    "name": "Nome rlv2",
+                    "type": "event",
+                    "action_id": "40dc15c9-871a-4b75-8966-29f4c28b729b",
+                    "trigger_node_id": "2167ddbe-eed2-45f1-b052-664068fc23e5"
+                  }
+                ],
+                "condition_id": "a0bc2cd1-0ed0-49ff-b674-0056c1b31721"
+              }
+            ],
+            "requisites": [
+              {
+                "actions": [
+                  {
+                    "type": "text",
+                    "texts": [
+                      "Para garantir sua segurança e seguirmos com a informação, poderia por favor **confirmar os 3 primeiros dígitos do seu {{$tipo_documento}}** XXX.{{$complemento_cpf_cnpj}}?\n"
+                    ],
+                    "action_id": "41b8c1f9-35d7-467b-979c-3babc98e968a"
+                  }
+                ],
+                "save_as": "validar_cpf",
+                "reprompt": [
+                  {
+                    "type": "text",
+                    "texts": [
+                      "Para continuarmos favor informar os 3 primeiros dígitos do seu CPF XXX.{{$live_instructions.cpf_parcial}}\n"
+                    ],
+                    "action_id": "539a0e7f-1e47-4ab9-8960-6e7db104e661"
+                  }
+                ],
+                "required": true,
+                "mandatory": true,
+                "requisite_id": "b3d8b570-f39d-4a08-a67f-dc5884e548f1"
+              }
+            ]
+          },
+          {
+            "name": "Validar CPF 2ª vez",
+            "type": "event",
+            "actions": [],
+            "enhance": false,
+            "node_id": "2167ddbe-eed2-45f1-b052-664068fc23e5",
+            "parent_id": "aa3af112-78ae-4d5a-bda2-3238ac5f64af",
+            "conditions": [
+              {
+                "name": "Validou CPF",
+                "match": "any",
+                "rules": [
+                  {
+                    "name": "$validar_cpf",
+                    "value": "{{$live_instructions.cpf_val}}",
+                    "rule_id": "ae5241b2-c7a0-4792-9e59-fbb01c1b3b0c",
+                    "operator": "equal"
+                  }
+                ],
+                "actions": [
+                  {
+                    "tags": [
+                      "validou_cpf"
+                    ],
+                    "type": "tag",
+                    "action_id": "af28d0d4-cab1-4878-8781-358e904542ae",
+                    "operation": "add"
+                  },
+                  {
+                    "type": "replay",
+                    "texts": [
+                      "Apresente minha pendência"
+                    ],
+                    "action_id": "3958691d-f236-49e7-99c2-c730cea30b14"
+                  }
+                ],
+                "condition_id": "43644fd4-1f30-4f5c-9e39-0efe1d3b1659"
+              },
+              {
+                "name": "Não Validou CPF",
+                "match": "else",
+                "rules": [],
+                "actions": [
+                  {
+                    "type": "text",
+                    "texts": [
+                      "Ainda não encontrei o seu CPF em nosso banco de dados {{$user.display_name}}, mas não se preocupe estou te tranferindo para um dos nossos consultores que dará continuidade no seu atendimento! 😊\n"
+                    ],
+                    "action_id": "11db4243-41e4-4e60-9c4c-37bacd56c95d"
+                  },
+                  {
+                    "tags": [
+                      "handover"
+                    ],
+                    "type": "tag",
+                    "action_id": "1c02cc10-9ec0-40fe-91ff-d17ca820bdfd",
+                    "operation": "add"
+                  },
+                  {
+                    "name": "Nome pwz2",
+                    "type": "handover",
+                    "external": false,
+                    "action_id": "19b0f220-9ea6-43ae-8309-881610317efe"
+                  }
+                ],
+                "condition_id": "755b059e-1a09-45bd-9012-b95ba25800de"
+              }
+            ],
+            "requisites": [
+              {
+                "actions": [
+                  {
+                    "type": "text",
+                    "texts": [
+                      "Me envie por favor **os 3 primeiros dígitos do seu CPF** XXX.{{$live_instructions.cpf_parcial}}.\n"
+                    ],
+                    "action_id": "0714a455-0c54-4e3a-8eae-3d4cacc331a2"
+                  }
+                ],
+                "save_as": "validar_cpf",
+                "reprompt": [
+                  {
+                    "type": "text",
+                    "texts": [
+                      "Para continuarmos favor informar os 3 primeiros dígitos do seu CPF XXX.{{$live_instructions.cpf_parcial}}\n"
+                    ],
+                    "action_id": "c1259a2e-1582-4249-8469-0d4edd1d58d9"
+                  }
+                ],
+                "required": true,
+                "mandatory": true,
+                "requisite_id": "7041fe11-e71f-4754-9852-8af4c508e66a"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "intents": [
+      {
+        "intent": "Atendimento_humano",
+        "collection": "",
+        "description": "",
+        "expressions": [
+          "sim, pode transferir meu atendimento",
+          "sim, quero falar com um humano",
+          "falar com atendimento humano",
+          "falar com um humano",
+          "preciso de atendimento humano",
+          "posso falar com um atendente humano?",
+          "quero ser atendido por uma pessoa",
+          "quero falar com um atendente humano",
+          "preciso falar com um atendente humano",
+          "atendimento humano",
+          "quero ser atendido por um humano",
+          "Quero falar com o atendente humano"
+        ]
+      },
+      {
+        "intent": "Auth",
+        "collection": "",
+        "description": "",
+        "expressions": [
+          "#Authentication#"
+        ]
+      },
+      {
+        "intent": "Confirma_acordo",
+        "collection": "",
+        "description": "",
+        "expressions": [
+          "pode seguir com essa proposta",
+          "de acordo com a proposta",
+          "quero finalizar a minha negociação",
+          "finalizar negociação",
+          "Estou de acordo com a oferta",
+          "confirmo a proposta de pagamento",
+          "estou de acordo com a proposta"
+        ]
+      },
+      {
+        "intent": "goodbye",
+        "collection": "",
+        "description": "",
+        "expressions": [
+          "tchau",
+          "adeus",
+          "Até mais",
+          "contanto",
+          "muito obrigado",
+          "muito apreciado",
+          "graças",
+          "Obrigado",
+          "Agradeço",
+          "Obrigado pela ajuda",
+          "Obrigado por me ajudar"
+        ]
+      },
+      {
+        "intent": "greetings",
+        "collection": "",
+        "description": "",
+        "expressions": [
+          "defaultstartmessage",
+          "Bom dia",
+          "Boa noite",
+          "Bom te ver",
+          "Saudações",
+          "Olá",
+          "Ei",
+          "Oi",
+          "E aí",
+          "você",
+          "olá"
+        ]
+      },
+      {
+        "intent": "nao_conheco",
+        "collection": "",
+        "description": "",
+        "expressions": [
+          "nao sou essa pessoa",
+          "sou eu nao",
+          "não faço ideia de quem seja",
+          "não tenho conhecimento sobre isso",
+          "não reconheço essa pessoa",
+          "não sou eu",
+          "não sei quem é",
+          "não conheço"
+        ]
+      },
+      {
+        "intent": "nao_tenho_interesse",
+        "collection": "",
+        "description": "",
+        "expressions": [
+          "nao vou negociar nada",
+          "nao quero",
+          "nao quero negociar",
+          "Não vou negociar",
+          "ja falei que nao tenho interesse",
+          "pare de me procurar",
+          "nao tenho interesse em receber mensagens",
+          "por favor, nao me envie mensagens",
+          "nao quero receber mensagens",
+          "pare de me mandar mensagens",
+          "pare de me enviar mensagens",
+          "não estou interessado",
+          "Para de me mandar mensagem",
+          "não me mande mensagens",
+          "Não tenho interesse"
+        ]
+      },
+      {
+        "intent": "offtopics",
+        "collection": "",
+        "description": "System intent",
+        "expressions": []
+      },
+      {
+        "intent": "reset",
+        "collection": "",
+        "description": "",
+        "expressions": [
+          "reset"
+        ]
+      },
+      {
+        "intent": "Sou_eu",
+        "collection": "",
+        "description": "",
+        "expressions": [
+          "ok, quais os valores",
+          "vamos resolver",
+          "como negociar?",
+          "como posso negociar?",
+          "vamos negociar",
+          "quero negociar minha divida",
+          "podemos negociar",
+          "quero negociar"
+        ]
+      }
+    ],
+    "entities": [],
+    "insights": [
+      {
+        "insight_id": "5d43be99-c665-4bb7-a8e9-418181567ce4",
+        "name": "acionar_advogado",
+        "description": "O usuário menciona que vai acionar advogado. ",
+        "type": "boolean",
+        "categories": []
+      },
+      {
+        "insight_id": "3cdd2784-84c6-4e0e-8555-d766036364fc",
+        "name": "data_promessa_pagamento",
+        "description": "Essa informação (insight) é definida para extrair os dados em que o usuário prometeu efetuar um pagamento.",
+        "type": "datetime",
+        "categories": []
+      },
+      {
+        "insight_id": "27a29fac-1638-478e-b17b-6d304c4928cc",
+        "name": "desconhecido",
+        "description": "O usuário afirma que esta não é a pessoa certa a ser contatada. Por exemplo, eles mencionam que é a pessoa que estamos procurando (neste caso, saída false)",
+        "type": "boolean",
+        "categories": []
+      },
+      {
+        "insight_id": "06982cff-8883-4000-98e0-0fc0df2ed138",
+        "name": "intencao_de_pagar",
+        "description": "De 0 a 10 quanto o devedor se mostrou disposto a pagar a divida ou ao menos a negociar para chegar em um acordo",
+        "type": "int",
+        "categories": []
+      },
+      {
+        "insight_id": "ec11d280-867f-4954-a02e-8a599ddf3d78",
+        "name": "nao_reconhece_divia",
+        "description": "Essa informação (insight) é definida para verificar se uma pessoa questiona, desafia ou se recusa explicitamente a aceitar a validade, o valor, a responsabilidade ou a existência de uma dívida que está sendo cobrada por outra parte, seja parcial ou totalmente.",
+        "type": "boolean",
+        "categories": []
+      },
+      {
+        "insight_id": "447023a6-efda-4abb-86cc-d28d17c7ffe2",
+        "name": "pedido_mais_prazo",
+        "description": "Essa informação (insight) é definida para extrair se o usuário solicitar tempo adicional ou uma prorrogação para efetuar o pagamento, solicitando uma nova data de vencimento, período de carência, parcelamento ou adiamento.",
+        "type": "boolean",
+        "categories": []
+      },
+      {
+        "insight_id": "234580b6-4751-4536-b92b-f59cef877479",
+        "name": "perfil_psicologico",
+        "description": "1. DICE: Desafiador-Insolvente-Caótico-Emocional. Tipicamente, estes são devedores que tendem a recusar qualquer solução de pagamento e estão em uma situação financeira difícil. Muitos deles já foram devedores no passado e não se engajam em uma conversa com a agência de cobrança de dívidas, apesar de incentivos adicionais para desencadear reações.\n2. WAOE: Disposto-Capaz-Organizado-Emocional. Tipicamente, estes são devedores que tendem a optar por uma solução de pagamento e que estão em uma situação financeira melhor, que reagem rapidamente às mensagens de cobrança de dívidas, mesmo que sua comunicação às vezes possa ser errática.\n3. WACE: Disposto-Capaz-Caótico-Emocional. Tipicamente, estes são devedores que tendem a optar por uma solução de pagamento e que estão em uma situação financeira melhor. No entanto, eles não conseguem manter os cronogramas de pagamento e não são factuais em sua comunicação.\n4. WAOR: Disposto-Capaz-Organizado-Racional. Tipicamente, estes são devedores que tendem a optar por uma solução de pagamento e que estão em uma situação financeira melhor, que exibem um comportamento digital mais pronunciado e que tomam decisões financeiras racionais pagando em reação a ofertas de redução.\n5. DICR: Desafiador-Insolvente-Caótico-Racional. Tipicamente, estes são devedores que tendem a recusar qualquer solução de pagamento e estão em uma situação financeira difícil, que não se engajam em uma conversa com a agência de cobrança de dívidas e que entraram na cobrança de dívidas com grandes sinistros em aberto",
+        "type": "categorical",
+        "categories": [
+          "DICE",
+          "WAOE",
+          "WACE",
+          "WAOR",
+          "DICR"
+        ]
+      },
+      {
+        "insight_id": "1b32a7b1-a9c5-4009-9ab4-574fd428f81d",
+        "name": "promessa_efertuada",
+        "description": "Se a Promessa de pagamento existir ou o usuário expressar vontade de negociar, defina como \"true\", caso contrário, defina como \"false\"",
+        "type": "boolean",
+        "categories": []
+      },
+      {
+        "insight_id": "476f5d4e-1e2f-42e2-bced-73a8a553f891",
+        "name": "promessa_efet",
+        "description": "Se a Promessa de pagamento existir ou o usuário expressar vontade de negociar, defina como \"true\", caso contrário, defina como \"false\"",
+        "type": "string",
+        "categories": []
+      },
+      {
+        "insight_id": "35b98261-99cf-4dd5-bd84-9de50785f23a",
+        "name": "registro_acordo",
+        "description": "Extraia da conversa o acordo detalhado escolhida pelo cliente",
+        "type": "string",
+        "categories": []
+      },
+      {
+        "insight_id": "d5e5d951-a6e1-434c-8264-dfecf8443e5e",
+        "name": "resumo_da_sessao",
+        "description": "resuma a conversa em algumas frases. explicitando o acordo firmado caso haja. Responda em português!",
+        "type": "string",
+        "categories": []
+      },
+      {
+        "insight_id": "e30d48a7-5791-409b-892d-b57dbeb107d2",
+        "name": "sem_condicoes",
+        "description": "Essa informação (insight) é definida para verificar se um usuário está enfrentando dificuldades financeiras ou incapacidade de pagar devido a razões como renda insuficiente, despesas elevadas, emergências médicas, obrigações familiares ou dificuldades financeiras em geral.",
+        "type": "boolean",
+        "categories": []
+      }
+    ],
+    "mcp_servers": []
+  }
