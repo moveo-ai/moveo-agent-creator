@@ -18,7 +18,6 @@ export default function Home() {
     clientName: '',
     apiKey: '',
     accountSlug: '',
-    googleCredentials: '',
   });
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<ApiResponse | null>(null);
@@ -49,7 +48,7 @@ export default function Home() {
     }
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -126,28 +125,6 @@ export default function Home() {
                   placeholder="Sua API Key da Moveo"
                   className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition"
                 />
-              </div>
-
-              <div>
-                <label
-                  htmlFor="googleCredentials"
-                  className="block text-sm font-medium text-gray-200 mb-2"
-                >
-                  Google Service Account (JSON)
-                </label>
-                <textarea
-                  id="googleCredentials"
-                  name="googleCredentials"
-                  value={formData.googleCredentials}
-                  onChange={handleChange}
-                  required
-                  rows={6}
-                  placeholder='Cole aqui o JSON da Service Account do Google (ex: {"type": "service_account", "project_id": "...", ...})'
-                  className="w-full px-4 py-3 rounded-lg bg-white/5 border border-white/10 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent transition font-mono text-sm resize-none"
-                />
-                <p className="mt-2 text-xs text-gray-400">
-                  Uma Google Sheet sera criada automaticamente para armazenar os dados do agente.
-                </p>
               </div>
 
               <button

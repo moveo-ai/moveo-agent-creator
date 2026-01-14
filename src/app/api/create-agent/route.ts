@@ -9,7 +9,6 @@ interface CreateAgentRequest {
   clientName: string;
   apiKey: string;
   accountSlug: string;
-  googleCredentials: string;
 }
 
 interface WebhookIdMapping {
@@ -524,23 +523,31 @@ async function createDialogs(
 export async function POST(request: NextRequest) {
   try {
     const body: CreateAgentRequest = await request.json();
-    const { clientName, apiKey, accountSlug, googleCredentials } = body;
+    const { clientName, apiKey, accountSlug } = body;
 
-    if (!clientName || !apiKey || !accountSlug || !googleCredentials) {
+    if (!clientName || !apiKey || !accountSlug) {
       return NextResponse.json(
         { success: false, error: 'Todos os campos são obrigatórios' },
         { status: 400 }
       );
     }
 
-    // Parse Google credentials
+    // Get Google credentials from environment
+    const googleCredentials = process.env.GOOGLE_CREDENTIALS;
+    if (!googleCredentials) {
+      return NextResponse.json(
+        { success: false, error: 'Credenciais do Google não configuradas no servidor (GOOGLE_CREDENTIALS)' },
+        { status: 500 }
+      );
+    }
+
     let credentials: object;
     try {
       credentials = JSON.parse(googleCredentials);
     } catch {
       return NextResponse.json(
-        { success: false, error: 'Credenciais do Google inválidas. Verifique o formato JSON.' },
-        { status: 400 }
+        { success: false, error: 'Credenciais do Google inválidas no servidor. Verifique o formato JSON.' },
+        { status: 500 }
       );
     }
 
