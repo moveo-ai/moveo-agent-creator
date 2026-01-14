@@ -617,6 +617,10 @@ export async function POST(request: NextRequest) {
     }
     logs.push(`✓ Dialogs criados`);
 
+    // Generate links
+    const sheetUrl = `https://docs.google.com/spreadsheets/d/${fileId}`;
+    const agentUrl = `https://app.moveo.ai/${accountSlug}/brains/${brainId}`;
+
     logs.push('');
     logs.push('========================================');
     logs.push('          CONCLUÍDO!');
@@ -629,6 +633,8 @@ export async function POST(request: NextRequest) {
       success: true,
       brainId,
       fileId,
+      sheetUrl,
+      agentUrl,
       logs,
       errors: allErrors.length > 0 ? allErrors : undefined,
     });

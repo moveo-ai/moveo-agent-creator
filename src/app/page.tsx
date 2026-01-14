@@ -6,6 +6,8 @@ interface ApiResponse {
   success: boolean;
   brainId?: string;
   fileId?: string;
+  sheetUrl?: string;
+  agentUrl?: string;
   logs?: string[];
   errors?: string[];
   error?: string;
@@ -200,17 +202,59 @@ export default function Home() {
                 {result.success ? 'Agente Criado com Sucesso!' : 'Erro ao Criar Agente'}
               </h2>
 
-              {result.brainId && (
-                <div className="mb-4 p-4 bg-white/5 rounded-lg space-y-2">
-                  <p className="text-gray-300">
-                    <span className="font-medium text-white">Brain ID:</span>{' '}
-                    <code className="text-purple-400">{result.brainId}</code>
-                  </p>
-                  {result.fileId && (
-                    <p className="text-gray-300">
-                      <span className="font-medium text-white">Google Sheet ID:</span>{' '}
-                      <code className="text-purple-400">{result.fileId}</code>
-                    </p>
+              {result.success && (
+                <div className="mb-4 space-y-3">
+                  {result.agentUrl && (
+                    <a
+                      href={result.agentUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-between p-4 bg-purple-500/20 hover:bg-purple-500/30 rounded-lg border border-purple-500/30 transition-colors group"
+                    >
+                      <div>
+                        <p className="font-medium text-white">Abrir Agente no Moveo</p>
+                        <p className="text-sm text-gray-400">Brain ID: {result.brainId}</p>
+                      </div>
+                      <svg
+                        className="w-5 h-5 text-purple-400 group-hover:translate-x-1 transition-transform"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                        />
+                      </svg>
+                    </a>
+                  )}
+                  {result.sheetUrl && (
+                    <a
+                      href={result.sheetUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center justify-between p-4 bg-green-500/20 hover:bg-green-500/30 rounded-lg border border-green-500/30 transition-colors group"
+                    >
+                      <div>
+                        <p className="font-medium text-white">Abrir Google Sheet</p>
+                        <p className="text-sm text-gray-400">File ID: {result.fileId}</p>
+                      </div>
+                      <svg
+                        className="w-5 h-5 text-green-400 group-hover:translate-x-1 transition-transform"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                        />
+                      </svg>
+                    </a>
                   )}
                 </div>
               )}
