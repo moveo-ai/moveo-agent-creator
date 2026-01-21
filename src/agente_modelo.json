@@ -45,7 +45,7 @@
         "webhook_id": "74e19fcf-9df2-4d79-94e2-7ff56c000748",
         "name": "Buscar dados CPF",
         "token": "1234",
-        "url": "https://webviews-git-google-sheet-read-v2-moveo-ai.vercel.app/api/common/google-sheet-read?context_external_id=cpf&column_name_external_id=cpf_completo",
+        "url": "https://webviews-git-google-sheet-read-v2-moveo-ai.vercel.app/api/common/google-sheet-read?context_external_id=cpf_cnpj&column_name_external_id=cpf_cnpj",
         "headers": [
           {
             "name": "x-file-id",
@@ -410,12 +410,12 @@
                   {
                     "type": "text",
                     "texts": [
-                      "Para garantir a confidencialidade dos dados, por gentileza, me informe agora o número do seu CPF☺️!\n"
+                      "Para garantir a confidencialidade dos dados, por gentileza, me informe agora o número do seu CPF ou CNPJ☺️!\n"
                     ],
                     "action_id": "5c9adb2a-a630-44cf-b955-49f29a743626"
                   }
                 ],
-                "save_as": "cpf",
+                "save_as": "cpf_cnpj",
                 "requisite_id": "a2fa6f6e-caf0-457b-a361-0a4d186246a4"
               }
             ]
