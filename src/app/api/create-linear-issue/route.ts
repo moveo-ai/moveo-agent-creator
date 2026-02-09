@@ -186,12 +186,19 @@ export async function POST(request: NextRequest) {
     const issueTitle = `[Novo Cliente] ${body.companyName}`;
     const issueDescription = formatIssueDescription(body);
 
+    // Due date: 7 dias a partir de hoje
+    const dueDate = new Date();
+    dueDate.setDate(dueDate.getDate() + 7);
+    const dueDateString = dueDate.toISOString().split('T')[0]; // formato YYYY-MM-DD
+
     const mutation = `
-      mutation CreateIssue($title: String!, $description: String!, $teamId: String!) {
+      mutation CreateIssue($title: String!, $description: String!, $teamId: String!, $projectId: String!, $dueDate: TimelessDate!) {
         issueCreate(input: {
           title: $title
           description: $description
           teamId: $teamId
+          projectId: $projectId
+          dueDate: $dueDate
         }) {
           success
           issue {
@@ -203,27 +210,31 @@ export async function POST(request: NextRequest) {
       }
     `;
 
+    const requestPayload = {
+      query: mutation,
+      variables: {
+        title: issueTitle,
+        description: issueDescription,
+        teamId: linearTeamId,
+        projectId: '9195c96d-3691-44fe-aeed-d6bfd568e25e', // Sales BR
+        dueDate: dueDateString,
+      },
+    };
+
     const response = await fetch('https://api.linear.app/graphql', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         Authorization: linearApiKey,
       },
-      body: JSON.stringify({
-        query: mutation,
-        variables: {
-          title: issueTitle,
-          description: issueDescription,
-          teamId: linearTeamId,
-        },
-      }),
+      body: JSON.stringify(requestPayload),
     });
 
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('Linear API error:', errorText);
+      console.error('Linear API error:', response.status, errorText);
       return NextResponse.json(
-        { success: false, error: `Erro na API do Linear: ${response.status}` },
+        { success: false, error: `Erro na API do Linear: ${response.status} - ${errorText}` },
         { status: 500 }
       );
     }
