@@ -551,7 +551,7 @@ function ClientRegistrationTab() {
               { value: 'educacao', label: 'Educação' },
               { value: 'telecom', label: 'Telecom' },
               { value: 'saude', label: 'Saúde' },
-              { value: 'outros', label: 'Outros' },
+              { value: 'outros_natureza', label: 'Outros' },
             ]}
           />
         </div>

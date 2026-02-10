@@ -48,7 +48,7 @@ const LABELS: Record<string, string> = {
   educacao: 'Educação',
   telecom: 'Telecom',
   saude: 'Saúde',
-  outros: 'Outros',
+  outros_natureza: 'Outros',
   // Portfolio Movement
   alta: 'Alta movimentação (entrada constante)',
   media: 'Média movimentação',
