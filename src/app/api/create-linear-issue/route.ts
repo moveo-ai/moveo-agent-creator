@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server';
 
 interface ClientFormData {
+  salesPerson: string;
+  salesPersonOther: string;
   companyName: string;
   businessModel: string;
   creditorType: string;
@@ -26,6 +28,11 @@ interface ClientFormData {
 }
 
 const LABELS: Record<string, string> = {
+  // Sales Person
+  felipe_benedetti: 'Felipe Benedetti',
+  arnaldo: 'Arnaldo',
+  henrique: 'Henrique',
+  outros: 'Outros',
   // Business Model
   carteira_propria: 'Cobra carteira própria',
   bpo: 'Presta serviço para terceiros/BPO',
@@ -99,67 +106,112 @@ function getLabel(value: string): string {
   return LABELS[value] || value || 'Não informado';
 }
 
-function formatIssueDescription(data: ClientFormData): string {
-  return `# Novo Cliente - ${data.companyName}
+function formatFormDataForGPT(data: ClientFormData): string {
+  const salesPersonName = data.salesPerson === 'outros'
+    ? data.salesPersonOther
+    : getLabel(data.salesPerson);
 
-## 1. Perfil e Modelo de Negócio
+  return `
+Vendedor Responsável: ${salesPersonName || 'Não informado'}
+Nome da Empresa: ${data.companyName || 'Não informado'}
+Modelo de Atuação: ${getLabel(data.businessModel)}
+Tipo de Credor: ${getLabel(data.creditorType)}
+Estimativa de Uso de IA: ${data.estimatedAIUsage || 'Não informado'}
+Natureza da Dívida: ${getLabel(data.debtNature)}
+Volume Mensal: ${data.monthlyVolume || 'Não informado'}
+Movimentação da Carteira: ${getLabel(data.portfolioMovement)}
+Idade da Dívida (Foco): ${getLabel(data.debtAge)}
+Tamanho do Time: ${data.teamSize || 'Não informado'}
+Taxa de Efetividade: ${data.conversionRate || 'Não informado'}
+Canais Atuais: ${getLabel(data.currentChannels)}
+WhatsApp API Oficial: ${getLabel(data.whatsappApi)}
+Status Meta Business: ${getLabel(data.metaBusinessStatus)}
+Problemas com Conta: ${getLabel(data.accountIssues)}
+Modelo de Cobrança Atual: ${getLabel(data.currentCollectionModel)}
+Custo por Acordo: ${data.costPerAgreement || 'Não informado'}
+Cálculo da Dívida: ${getLabel(data.debtCalculation)}
+Autonomia para Descontos: ${getLabel(data.discountAutonomy)}
+Segmentação (Clusters): ${getLabel(data.segmentation)}
+CRM/Sistema de Gestão: ${data.crmSystem || 'Não informado'}
+Principal KPI: ${getLabel(data.primaryKPI)}
+Observações Adicionais: ${data.additionalNotes || 'Nenhuma'}
+`.trim();
+}
 
-| Campo | Valor |
-|-------|-------|
-| **Nome da Empresa** | ${data.companyName || 'Não informado'} |
-| **Modelo de Atuação** | ${getLabel(data.businessModel)} |
-| **Tipo de Credor** | ${getLabel(data.creditorType)} |
-| **Estimativa de Uso de IA** | ${data.estimatedAIUsage || 'Não informado'} |
-| **Natureza da Dívida** | ${getLabel(data.debtNature)} |
+async function generateDescriptionWithGPT(data: ClientFormData): Promise<string> {
+  const openaiApiKey = process.env.OPENAI_API_KEY;
 
----
+  if (!openaiApiKey) {
+    console.warn('OPENAI_API_KEY não configurada - usando descrição básica');
+    return formatFormDataForGPT(data);
+  }
 
-## 2. Volume e Demanda
+  const formData = formatFormDataForGPT(data);
 
-| Campo | Valor |
-|-------|-------|
-| **Volume Mensal** | ${data.monthlyVolume || 'Não informado'} |
-| **Movimentação da Carteira** | ${getLabel(data.portfolioMovement)} |
-| **Idade da Dívida (Foco)** | ${getLabel(data.debtAge)} |
-| **Tamanho do Time** | ${data.teamSize || 'Não informado'} |
-| **Taxa de Efetividade** | ${data.conversionRate || 'Não informado'} |
+  const systemPrompt = `Você é um especialista em análise de clientes para uma empresa de IA conversacional focada em cobrança.
+Sua tarefa é analisar os dados de um potencial cliente e gerar uma descrição em Markdown para uma issue no Linear.
 
----
+A descrição deve ser:
+- Sucinta e direta ao ponto
+- Bem estruturada com headers e bullet points
+- Destacar pontos críticos e oportunidades
+- Incluir TODOS os dados fornecidos sem omitir nenhum
+- Profissional e objetiva
 
-## 3. Maturidade Digital e Canais
+Formato esperado:
+## Resumo Executivo
+(2-3 frases resumindo o cliente)
 
-| Campo | Valor |
-|-------|-------|
-| **Canais Atuais** | ${getLabel(data.currentChannels)} |
-| **WhatsApp API Oficial** | ${getLabel(data.whatsappApi)} |
-| **Status Meta Business** | ${getLabel(data.metaBusinessStatus)} |
-| **Problemas com Conta** | ${getLabel(data.accountIssues)} |
-| **Modelo de Cobrança Atual** | ${getLabel(data.currentCollectionModel)} |
-| **Custo por Acordo** | ${data.costPerAgreement || 'Não informado'} |
+## Perfil da Empresa
+(bullet points com dados principais)
 
----
+## Operação Atual
+(como funciona a cobrança hoje)
 
-## 4. Regras de Negócio
+## Maturidade Digital
+(canais, WhatsApp, Meta Business)
 
-| Campo | Valor |
-|-------|-------|
-| **Cálculo da Dívida** | ${getLabel(data.debtCalculation)} |
-| **Autonomia para Descontos** | ${getLabel(data.discountAutonomy)} |
-| **Segmentação (Clusters)** | ${getLabel(data.segmentation)} |
-| **CRM/Sistema de Gestão** | ${data.crmSystem || 'Não informado'} |
+## Regras de Negócio
+(cálculo de dívida, descontos, segmentação)
 
----
+## Oportunidades e Pontos de Atenção
+(análise crítica)
 
-## 5. Visão de Sucesso
-
-| Campo | Valor |
-|-------|-------|
-| **Principal KPI** | ${getLabel(data.primaryKPI)} |
-
-${data.additionalNotes ? `### Observações Adicionais\n${data.additionalNotes}` : ''}
+## Objetivo Principal
+(KPI e expectativas)
 
 ---
 *Issue criada automaticamente via Moveo Agent Platform*`;
+
+  try {
+    const response = await fetch('https://api.openai.com/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${openaiApiKey}`,
+      },
+      body: JSON.stringify({
+        model: 'gpt-4o-mini',
+        messages: [
+          { role: 'system', content: systemPrompt },
+          { role: 'user', content: `Analise os dados deste cliente e gere a descrição:\n\n${formData}` }
+        ],
+        max_tokens: 2000,
+        temperature: 0.7,
+      }),
+    });
+
+    if (!response.ok) {
+      console.error('OpenAI API error:', response.status);
+      return formatFormDataForGPT(data);
+    }
+
+    const result = await response.json();
+    return result.choices?.[0]?.message?.content || formatFormDataForGPT(data);
+  } catch (error) {
+    console.error('Error calling OpenAI:', error);
+    return formatFormDataForGPT(data);
+  }
 }
 
 export async function POST(request: NextRequest) {
@@ -184,7 +236,7 @@ export async function POST(request: NextRequest) {
     }
 
     const issueTitle = `[Novo Cliente] ${body.companyName}`;
-    const issueDescription = formatIssueDescription(body);
+    const issueDescription = await generateDescriptionWithGPT(body);
 
     // Due date: 7 dias a partir de hoje
     const dueDate = new Date();

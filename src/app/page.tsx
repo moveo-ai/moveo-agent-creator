@@ -26,6 +26,9 @@ interface LinearResponse {
 }
 
 interface ClientFormData {
+  // Vendedor responsável
+  salesPerson: string;
+  salesPersonOther: string;
   // Seção 1 - Perfil e Modelo de Negócio
   companyName: string;
   businessModel: string;
@@ -304,6 +307,8 @@ function FormSection({
 
 function ClientRegistrationTab() {
   const [formData, setFormData] = useState<ClientFormData>({
+    salesPerson: '',
+    salesPersonOther: '',
     companyName: '',
     businessModel: '',
     creditorType: '',
@@ -331,6 +336,10 @@ function ClientRegistrationTab() {
   const [openSection, setOpenSection] = useState(1);
   const [loading, setLoading] = useState(false);
   const [result, setResult] = useState<LinearResponse | null>(null);
+  const [showFeedbackModal, setShowFeedbackModal] = useState(false);
+  const [feedbackText, setFeedbackText] = useState('');
+  const [feedbackLoading, setFeedbackLoading] = useState(false);
+  const [feedbackResult, setFeedbackResult] = useState<LinearResponse | null>(null);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -344,7 +353,8 @@ function ClientRegistrationTab() {
   const isSectionCompleted = (section: number): boolean => {
     switch (section) {
       case 1:
-        return !!(formData.companyName);
+        const salesPersonValid = formData.salesPerson && (formData.salesPerson !== 'outros' || formData.salesPersonOther);
+        return !!(formData.companyName && salesPersonValid);
       case 2:
         return !!(formData.monthlyVolume || formData.portfolioMovement || formData.debtAge || formData.teamSize || formData.conversionRate);
       case 3:
@@ -364,6 +374,54 @@ function ClientRegistrationTab() {
       if (isSectionCompleted(i)) completed++;
     }
     return (completed / 5) * 100;
+  };
+
+  const getSalesPersonName = () => {
+    if (formData.salesPerson === 'outros') {
+      return formData.salesPersonOther || 'Vendedor';
+    }
+    const names: Record<string, string> = {
+      felipe_benedetti: 'Felipe Benedetti',
+      arnaldo: 'Arnaldo',
+      henrique: 'Henrique',
+    };
+    return names[formData.salesPerson] || 'Vendedor';
+  };
+
+  const handleFeedbackSubmit = async () => {
+    if (!feedbackText.trim()) return;
+
+    setFeedbackLoading(true);
+    setFeedbackResult(null);
+
+    try {
+      const response = await fetch('/api/create-feedback-issue', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          salesPersonName: getSalesPersonName(),
+          feedback: feedbackText,
+        }),
+      });
+
+      const data: LinearResponse = await response.json();
+      setFeedbackResult(data);
+
+      if (data.success) {
+        setFeedbackText('');
+        setTimeout(() => {
+          setShowFeedbackModal(false);
+          setFeedbackResult(null);
+        }, 2000);
+      }
+    } catch (error) {
+      setFeedbackResult({
+        success: false,
+        error: error instanceof Error ? error.message : 'Erro ao enviar feedback',
+      });
+    } finally {
+      setFeedbackLoading(false);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -414,6 +472,31 @@ function ClientRegistrationTab() {
         onToggle={() => setOpenSection(openSection === 1 ? 0 : 1)}
       >
         <div className="grid gap-5">
+          <SelectField
+            label="Vendedor responsável"
+            name="salesPerson"
+            value={formData.salesPerson}
+            onChange={handleChange}
+            required
+            options={[
+              { value: 'felipe_benedetti', label: 'Felipe Benedetti' },
+              { value: 'arnaldo', label: 'Arnaldo' },
+              { value: 'henrique', label: 'Henrique' },
+              { value: 'outros', label: 'Outros' },
+            ]}
+          />
+
+          {formData.salesPerson === 'outros' && (
+            <FormField
+              label="Nome do vendedor"
+              name="salesPersonOther"
+              value={formData.salesPersonOther}
+              onChange={handleChange}
+              placeholder="Digite o nome do vendedor"
+              required
+            />
+          )}
+
           <FormField
             label="Nome da empresa"
             name="companyName"
@@ -732,31 +815,125 @@ function ClientRegistrationTab() {
         </div>
       </FormSection>
 
-      {/* Submit Button */}
-      <div className="pt-6">
-        <button
-          type="submit"
-          disabled={loading || !formData.companyName}
-          className="btn-primary w-full flex items-center justify-center gap-2 text-base"
-        >
-          {loading ? (
-            <>
-              <span className="spinner" />
-              <span>Criando issue no Linear...</span>
-            </>
-          ) : (
-            <>
-              <UserPlusIcon />
-              <span>Registrar Cliente no Linear</span>
-            </>
-          )}
-        </button>
+      {/* Submit Buttons */}
+      <div className="pt-6 space-y-3">
+        <div className="flex gap-3">
+          <button
+            type="submit"
+            disabled={loading || !formData.companyName || !formData.salesPerson || (formData.salesPerson === 'outros' && !formData.salesPersonOther)}
+            className="btn-primary flex-1 flex items-center justify-center gap-2 text-base"
+          >
+            {loading ? (
+              <>
+                <span className="spinner" />
+                <span>Criando issue no Linear...</span>
+              </>
+            ) : (
+              <>
+                <UserPlusIcon />
+                <span>Registrar Cliente no Linear</span>
+              </>
+            )}
+          </button>
+          <button
+            type="button"
+            onClick={() => setShowFeedbackModal(true)}
+            className="px-4 py-3 rounded-xl border border-[var(--border-subtle)] bg-[var(--bg-tertiary)] text-[var(--text-secondary)] hover:bg-[var(--bg-card)] hover:border-[var(--accent-gold)]/50 transition-all flex items-center gap-2"
+          >
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 8h10M7 12h4m1 8l-4-4H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-3l-4 4z" />
+            </svg>
+            <span className="hidden sm:inline">Sugerir melhorias</span>
+          </button>
+        </div>
         {getProgress() < 100 && (
-          <p className="text-center text-xs text-[var(--text-muted)] mt-3">
+          <p className="text-center text-xs text-[var(--text-muted)]">
             Complete todas as seções obrigatórias para enviar
           </p>
         )}
       </div>
+
+      {/* Feedback Modal */}
+      {showFeedbackModal && (
+        <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-50 p-4">
+          <div className="bg-[var(--bg-card)] border border-[var(--border-subtle)] rounded-2xl w-full max-w-lg animate-slide-up">
+            <div className="p-6 border-b border-[var(--border-subtle)]">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold text-[var(--text-primary)]">
+                  Sugerir melhorias no formulário
+                </h3>
+                <button
+                  type="button"
+                  onClick={() => {
+                    setShowFeedbackModal(false);
+                    setFeedbackResult(null);
+                  }}
+                  className="p-2 rounded-lg hover:bg-[var(--bg-tertiary)] transition"
+                >
+                  <svg className="w-5 h-5 text-[var(--text-muted)]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+              <p className="text-sm text-[var(--text-muted)] mt-1">
+                Seu feedback será registrado como uma issue no Linear
+              </p>
+            </div>
+
+            <div className="p-6 space-y-4">
+              <div>
+                <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">
+                  Descreva sua sugestão ou problema
+                </label>
+                <textarea
+                  value={feedbackText}
+                  onChange={(e) => setFeedbackText(e.target.value)}
+                  placeholder="Ex: Seria útil ter um campo para informar o CNPJ da empresa..."
+                  rows={5}
+                  className="input-field resize-none w-full"
+                />
+              </div>
+
+              {feedbackResult && (
+                <div
+                  className={`rounded-lg p-4 ${
+                    feedbackResult.success
+                      ? 'bg-[var(--success-bg)] border border-[var(--success)]/30'
+                      : 'bg-[var(--error-bg)] border border-[var(--error)]/30'
+                  }`}
+                >
+                  {feedbackResult.success ? (
+                    <p className="text-[var(--success)] text-sm">Feedback enviado com sucesso!</p>
+                  ) : (
+                    <p className="text-[var(--error)] text-sm">{feedbackResult.error}</p>
+                  )}
+                </div>
+              )}
+
+              <button
+                type="button"
+                onClick={handleFeedbackSubmit}
+                disabled={feedbackLoading || !feedbackText.trim()}
+                className="btn-primary w-full flex items-center justify-center gap-2"
+              >
+                {feedbackLoading ? (
+                  <>
+                    <span className="spinner" />
+                    <span>Enviando...</span>
+                  </>
+                ) : (
+                  <>
+                    <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" />
+                    </svg>
+                    <span>Enviar Feedback</span>
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Result */}
       {result && (
